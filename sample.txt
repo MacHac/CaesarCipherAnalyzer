@@ -1,0 +1,13 @@
+Russian hackers are trying to gain access to the devices that control the flow of internet traffic, the US and UK warned Monday in an alert for organizations and individuals worldwide.
+Though the governments are not sure how many devices have been compromised by the hackers nor what the objective is, the targeting affects millions of devices globally, officials said on a call with reporters Monday morning.
+"Once you own the router, you own the traffic traversing the router," chief Homeland Security cyber official Jeanette Manfra said, calling it a "fairly broad campaign" that is not targeting any sector in particular.
+"It's a tremendous weapon in the hands of an adversary," echoed the FBI's Howard Marshall, the deputy assistant director of the cyber division.
+The joint missive was the first time the US-UK governments have teamed up to put out such an alert. The warning says malicious Russian hackers have been targeting network infrastructure devices -- the types of devices that most internet traffic travels through, such as routers -- since 2015.
+Officials said they had "high confidence" that the Russian government was behind the campaign.
+The machines make particularly attractive targets as they are the nexus for massive amounts of internet traffic and tend to be maintained far less diligently than the devices that people use every day, like computers and mobile devices.
+According to the alert, hackers have been scanning devices broadly on the internet and attempting to trick them into giving up login credentials, or trying default passwords, which then allow the hackers to control the devices.
+While the focus of the alert is how individuals and businesses, from the home office to large enterprises, can protect themselves from the attack, the goal was also calling out Russia's bad behavior, officials said.
+"Our focus today is twofold. One: continuing the pressure campaign on nations that exploit others on the Internet. And two: Encourage industry to secure the devices we depend on," White House cybersecurity coordinator Rob Joyce said.
+Ciaran Martin, CEO of the UK's National Cyber Security Centre, called it "a very significant moment as we hold Russia to account and we improve our cyber defenses at the same time."
+Martin said the attacks could be designed for spying, stealing intellectual property or possibly "prepositioning for use in times of heightened tension."
+No sanctions or penalties were announced Monday, and the alert is unrelated to expected sanctions on Russia in coming days, though Joyce reiterated that "all elements of US power are available to push back" on such hacking efforts.
