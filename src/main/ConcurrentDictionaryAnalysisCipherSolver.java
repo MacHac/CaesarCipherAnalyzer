@@ -19,7 +19,7 @@ public class ConcurrentDictionaryAnalysisCipherSolver extends DictionaryAnalysis
         }
 
         @Override
-        public Boolean call() throws Exception {
+        public Boolean call() {
             return dict.contains(testWord);
         }
     }
@@ -37,7 +37,7 @@ public class ConcurrentDictionaryAnalysisCipherSolver extends DictionaryAnalysis
 
         public int score() {
             return values.stream()
-                    .flatMap(f -> f.isCancelled() ? Stream.empty() : Stream.of(f))
+                    .filter(f -> !f.isCancelled())
                     .map(f -> {
                         try {
                             return f.get();
@@ -62,8 +62,6 @@ public class ConcurrentDictionaryAnalysisCipherSolver extends DictionaryAnalysis
         for (int i = 0; i < ciphers.length; i++) {
             ciphers[i] = new Cipher(this.shifted(i), i);
         }
-
-        int wordCount = ciphers[0].getWords().length; //All ciphers have the same value.
 
         //Queue tasks
         CipherAnalysis[] cas = new CipherAnalysis[26];
