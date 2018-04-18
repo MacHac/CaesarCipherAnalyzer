@@ -57,25 +57,4 @@ public class ShortWordAnalysisCipherSolver extends CipherSolver {
 
         return score;
     }
-
-    @Override
-    public Cipher solve() {
-        Cipher[] ciphers = new Cipher[26];
-        for (int i = 0; i < ciphers.length; i++) {
-            ciphers[i] = new Cipher(this.shifted(i), i);
-        }
-
-        int max = 0;
-        int maxScore = score(ciphers[0]);
-
-        for (int i = 1; i < ciphers.length; i++) {
-            int newScore = score(ciphers[i]);
-            if (newScore > maxScore) {
-                max = i;
-                maxScore = newScore;
-            }
-        }
-
-        return ciphers[max];
-    }
 }

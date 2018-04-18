@@ -22,8 +22,8 @@ public class DictionaryAnalysisCipherSolver extends CipherSolver {
         dictionaryWords = loadDictionary();
     }
 
-    protected ArrayList<String> loadDictionary() {
-        ArrayList<String> out = new ArrayList<>();
+    protected List<String> loadDictionary() {
+        List<String> out = new ArrayList<>();
         String line = null;
         BufferedReader br = null;
         try {
@@ -41,6 +41,7 @@ public class DictionaryAnalysisCipherSolver extends CipherSolver {
         return out;
     }
 
+    @Override
     protected int score(Cipher cipher) {
         String[] words = cipher.getWords();
         int score = 0;
@@ -51,26 +52,5 @@ public class DictionaryAnalysisCipherSolver extends CipherSolver {
         }
 
         return score;
-    }
-
-    @Override
-    public Cipher solve() {
-        Cipher[] ciphers = new Cipher[26];
-        for (int i = 0; i < ciphers.length; i++) {
-            ciphers[i] = new Cipher(this.shifted(i), i);
-        }
-
-        int max = 0;
-        int maxScore = score(ciphers[0]);
-
-        for (int i = 1; i < 26; i++) {
-            int newScore = score(ciphers[i]);
-            if (newScore > maxScore) {
-                max = i;
-                maxScore = newScore;
-            }
-        }
-
-        return ciphers[max];
     }
 }

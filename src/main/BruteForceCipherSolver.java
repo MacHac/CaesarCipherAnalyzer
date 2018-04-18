@@ -24,4 +24,9 @@ public class BruteForceCipherSolver extends CipherSolver {
 
         return new Cipher(sb.toString(), -1);
     }
+
+    @Override
+    protected int score(Cipher cipher) {
+        return 0;
+    }
 }

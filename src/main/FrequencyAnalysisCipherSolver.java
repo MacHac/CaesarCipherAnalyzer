@@ -78,12 +78,8 @@ public class FrequencyAnalysisCipherSolver extends CipherSolver {
     }
 
     @Override
-    public Cipher solve() {
-        FACipher min = new FACipher(original, 0);
-        for (int i = 1; i < 26; i++) {
-            FACipher test = new FACipher(this.shifted(i), i);
-            if (test.getError() < min.getError()) min = test;
-        }
-        return min;
+    protected int score(Cipher cipher) {
+        FACipher sub = new FACipher(cipher.getValue(), cipher.getShift());
+        return (int)(Integer.MAX_VALUE * sub.getError());
     }
 }

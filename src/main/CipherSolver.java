@@ -37,5 +37,31 @@ public abstract class CipherSolver {
         return ciphertext;
     }
 
-    public abstract Cipher solve();
+    protected Cipher[] permutations() {
+        Cipher[] ciphers = new Cipher[26];
+        for (int i = 0; i < ciphers.length; i++) {
+            ciphers[i] = new Cipher(this.shifted(i), i);
+        }
+
+        return ciphers;
+    }
+
+    public Cipher solve() {
+        Cipher[] ciphers = this.permutations();
+
+        int max = 0;
+        int maxScore = score(ciphers[0]);
+
+        for (int i = 1; i < 26; i++) {
+            int newScore = score(ciphers[i]);
+            if (newScore > maxScore) {
+                max = i;
+                maxScore = newScore;
+            }
+        }
+
+        return ciphers[max];
+    }
+
+    protected abstract int score(Cipher cipher);
 }

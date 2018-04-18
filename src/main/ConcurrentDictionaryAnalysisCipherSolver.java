@@ -3,8 +3,10 @@ package main;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.*;
-import java.util.stream.Stream;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class ConcurrentDictionaryAnalysisCipherSolver extends DictionaryAnalysisCipherSolver {
     protected ExecutorService threadPool;
@@ -53,39 +55,18 @@ public class ConcurrentDictionaryAnalysisCipherSolver extends DictionaryAnalysis
     public ConcurrentDictionaryAnalysisCipherSolver(String original) {
         super(original);
         dictionaryWords = Collections.unmodifiableList(dictionaryWords); //Prevent threads from modifying the loaded dictionary.
-        threadPool = Executors.newFixedThreadPool(256); //Build thread pool
+        threadPool = Executors.newFixedThreadPool(16); //Build thread pool
     }
 
     @Override
-    public Cipher solve() {
-        Cipher[] ciphers = new Cipher[26];
-        for (int i = 0; i < ciphers.length; i++) {
-            ciphers[i] = new Cipher(this.shifted(i), i);
+    protected int score(Cipher cipher) {
+        String[] words = cipher.getWords();
+        CipherAnalysis cas = new CipherAnalysis(words.length);
+        for (String word : words) {
+            WordAnalyzer wa = new WordAnalyzer(this.dictionaryWords, word);
+            cas.push(threadPool.submit(wa));
         }
 
-        //Queue tasks
-        CipherAnalysis[] cas = new CipherAnalysis[26];
-        for (int i = 0; i < 26; i++) {
-            String[] words = ciphers[i].getWords();
-            cas[i] = new CipherAnalysis(words.length);
-            for (String word : words) {
-                WordAnalyzer wa = new WordAnalyzer(this.dictionaryWords, word);
-                cas[i].push(threadPool.submit(wa));
-            }
-        }
-
-        //Evaluate scores
-        int highestScore = cas[0].score();
-        int highestIndex = 0;
-
-        for (int i = 1; i < 26; i++) {
-            int newScore = cas[i].score();
-            if (newScore > highestScore) {
-                highestIndex = i;
-                highestScore = newScore;
-            }
-        }
-
-        return ciphers[highestIndex];
+        return cas.score();
     }
 }
