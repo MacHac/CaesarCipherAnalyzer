@@ -8,8 +8,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * This is a variant of the DictionaryAnalysisCipherSolver which feeds its analysis tasks into a thread pool and
+ * processes the words 16 at a time.  It completes most ciphers in between half and one third as long as the standard,
+ * non-threaded version.
+ * @see DictionaryAnalysisCipherSolver
+ */
+
 public class ConcurrentDictionaryAnalysisCipherSolver extends DictionaryAnalysisCipherSolver {
-    protected ExecutorService threadPool;
+    private ExecutorService threadPool;
 
     protected class WordAnalyzer implements Callable<Boolean> {
         private final String testWord;
@@ -33,11 +40,11 @@ public class ConcurrentDictionaryAnalysisCipherSolver extends DictionaryAnalysis
             values = new ArrayList<>(length);
         }
 
-        public void push(Future<Boolean> f) {
+        void push(Future<Boolean> f) {
             values.add(f);
         }
 
-        public int score() {
+        int score() {
             return values.stream()
                     .filter(f -> !f.isCancelled())
                     .map(f -> {
@@ -52,7 +59,7 @@ public class ConcurrentDictionaryAnalysisCipherSolver extends DictionaryAnalysis
         }
     }
 
-    public ConcurrentDictionaryAnalysisCipherSolver(String original) {
+    ConcurrentDictionaryAnalysisCipherSolver(String original) {
         super(original);
         dictionaryWords = Collections.unmodifiableList(dictionaryWords); //Prevent threads from modifying the loaded dictionary.
         threadPool = Executors.newFixedThreadPool(16); //Build thread pool

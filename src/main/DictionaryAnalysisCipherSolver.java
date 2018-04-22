@@ -11,21 +11,23 @@ import java.util.List;
  * The logical conclusion of any word-matching solver schemes, this solver loads a dictionary of about 500,000 words
  * and counts the matches.  The false-positive rate is virtually zero, but the solve time can reach into the seconds
  * for longer ciphers.  The bump in accuracy is only noticable at very short lengths (<= 6-7 words), so an alternative
- * like ShortWordAnalysisCipherFactor should be used for longer texts.
+ * like ShortWordAnalysisCipherSolver should be used for longer texts.
+ *
+ * @see CipherSolver
  */
 
 public class DictionaryAnalysisCipherSolver extends CipherSolver {
-    protected List<String> dictionaryWords;
+    List<String> dictionaryWords;
 
-    public DictionaryAnalysisCipherSolver(String original) {
+    DictionaryAnalysisCipherSolver(String original) {
         super(original);
         dictionaryWords = loadDictionary();
     }
 
-    protected List<String> loadDictionary() {
+    private List<String> loadDictionary() {
         List<String> out = new ArrayList<>();
-        String line = null;
-        BufferedReader br = null;
+        String line;
+        BufferedReader br;
         try {
             br = new BufferedReader(new FileReader("wordlist.txt"));
 

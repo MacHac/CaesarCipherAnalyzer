@@ -2,10 +2,10 @@ package main;
 
 import java.util.Arrays;
 
-public abstract class CipherSolver {
-    protected String original;
+public abstract class CipherSolver implements Solver {
+    private String original;
 
-    public CipherSolver(String original) {
+    CipherSolver(String original) {
         this.original = original;
     }
 
@@ -13,9 +13,16 @@ public abstract class CipherSolver {
         return original;
     }
 
-    public void setOriginal(String original) {
+    void setOriginal(String original) {
         this.original = original;
     }
+
+    /**
+     * This function 'rotates' a letter around the alphabet.
+     * @param in The letter to rotate
+     * @param amt The amount to rotate it by
+     * @return The rotated letter.
+     */
 
     private char shiftLetter(char in, int amt) {
         final int BASE = Character.isUpperCase(in) ? 'A' : 'a';
@@ -29,15 +36,19 @@ public abstract class CipherSolver {
      * @return A Cipher object with the shifted string and properly set amount.
      */
 
-    protected String shifted(int amt) {
-        String ciphertext = Arrays.stream(original.split(""))
+    private String shifted(int amt) {
+        return Arrays.stream(original.split(""))
                 .map(s -> Character.isAlphabetic(s.charAt(0)) ? shiftLetter(s.charAt(0), amt) : s) //Ignore non-alphabetic characters
-                .collect(StringBuilder::new, (a, b) -> a.append(b), (a, b) -> a.append(b))
+                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                 .toString();
-        return ciphertext;
     }
 
-    protected Cipher[] permutations() {
+    /**
+     * This function produces an array of Cipher objects, one for each possible key.
+     * @return The produced array.
+     */
+
+    private Cipher[] permutations() {
         Cipher[] ciphers = new Cipher[26];
         for (int i = 0; i < ciphers.length; i++) {
             ciphers[i] = new Cipher(this.shifted(i), i);
@@ -45,6 +56,12 @@ public abstract class CipherSolver {
 
         return ciphers;
     }
+
+    /**
+     * This function rates each of the possible ciphers from permutations() using the object's
+     * implementation of the score() function, then returns the one that scored the highest.
+     * @return The highest-scoring Cipher object.
+     */
 
     public Cipher solve() {
         Cipher[] ciphers = this.permutations();

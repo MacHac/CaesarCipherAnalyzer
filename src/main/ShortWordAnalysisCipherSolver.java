@@ -8,10 +8,12 @@ package main;
  *
  * This strikes a good balance between speed and reliability; Virtually all written english has at least one of these
  * words in it, and the odds of a false positive are low.
+ *
+ * @see CipherSolver
  */
 
 public class ShortWordAnalysisCipherSolver extends CipherSolver {
-    public ShortWordAnalysisCipherSolver(String original) {
+    ShortWordAnalysisCipherSolver(String original) {
         super(original);
     }
 
@@ -20,12 +22,12 @@ public class ShortWordAnalysisCipherSolver extends CipherSolver {
      * https://www3.nd.edu/~busiforc/handouts/cryptography/cryptography%20hints.html
      */
 
-    protected static final String[] oneLetterWords = new String[] {
+    private static final String[] oneLetterWords = new String[] {
             "i",
             "a"
     }; //There are exactly two valid single-letter words in english.
 
-    protected static final String[] twoLetterWords = new String[]{
+    private static final String[] twoLetterWords = new String[]{
             "of", "to", "in", "it", "is",
             "be", "as", "at", "so", "we",
             "he", "by", "or", "on", "do",
@@ -33,7 +35,7 @@ public class ShortWordAnalysisCipherSolver extends CipherSolver {
             "go", "no", "us", "am"
     }; //There are more of these, so incorrect ciphers are more likely to form one.
 
-    protected static final String[] threeLetterWords = new String[]{
+    private static final String[] threeLetterWords = new String[]{
             "the", "and", "for", "are", "but",
             "not", "you", "all", "any", "can",
             "had", "her", "was", "one", "our",
@@ -42,14 +44,14 @@ public class ShortWordAnalysisCipherSolver extends CipherSolver {
             "old", "see", "two", "way", "who",
             "boy", "did", "its", "let", "put",
             "say", "she", "too", "use"
-    };
+    }; //Not an exhaustive list
+
 
     protected int score(Cipher cipher) {
         String[] words = cipher.getWords();
 
         int score = 0;
-        for (int i = 0; i < words.length; i++) {
-            String operand = words[i];
+        for (String operand : words) {
             for (String one : oneLetterWords) if (operand.equals(one)) score++;
             for (String two : twoLetterWords) if (operand.equals(two)) score++;
             for (String three : threeLetterWords) if (operand.equals(three)) score++;

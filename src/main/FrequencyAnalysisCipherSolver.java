@@ -26,7 +26,7 @@ public class FrequencyAnalysisCipherSolver extends CipherSolver {
         };
 
         private double error;
-        public FACipher(String value, int shift) {
+        FACipher(String value, int shift) {
             super(value, shift);
 
             double[] actualFrequencies = new double[expectedFrequencies.length];
@@ -37,12 +37,12 @@ public class FrequencyAnalysisCipherSolver extends CipherSolver {
             error = meanSquaredError(expectedFrequencies, actualFrequencies);
         }
 
-        public double getError() {
+        private double getError() {
             return error;
         }
 
         //Compute the frequency of a letter in the given string.
-        protected double frequency(char letter) {
+        private double frequency(char letter) {
             double count = 0;
             for (int i = 0; i < this.value.length(); i++) {
                 char compareTo = Character.toLowerCase(this.value.charAt(i));
@@ -53,12 +53,12 @@ public class FrequencyAnalysisCipherSolver extends CipherSolver {
         }
 
         //Determine the squared error in the frequencies
-        protected double squaredError(double expected, double actual) {
+        private double squaredError(double expected, double actual) {
             return Math.pow(actual - expected, 2);
         }
 
         //Determine the mean squared error of the set being evaluated.
-        protected double meanSquaredError(double[] expected, double[] actual) {
+        private double meanSquaredError(double[] expected, double[] actual) {
             double count = 0;
             for (int i = 0; i < actual.length; i++) {
                 count += squaredError(expected[i], actual[i]);
@@ -73,7 +73,7 @@ public class FrequencyAnalysisCipherSolver extends CipherSolver {
         }
     }
 
-    public FrequencyAnalysisCipherSolver(String original) {
+    FrequencyAnalysisCipherSolver(String original) {
         super(original);
     }
 
